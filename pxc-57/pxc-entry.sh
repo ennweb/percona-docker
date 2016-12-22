@@ -125,7 +125,7 @@ curl http://$DISCOVERY_SERVICE/v2/keys/pxc-cluster/queue/$CLUSTER_NAME -XPOST -d
 i=$(curl http://$DISCOVERY_SERVICE/v2/keys/pxc-cluster/queue/$CLUSTER_NAME | jq -r '.node.nodes[].value')
 
 # this remove my ip from the list
-i1=${i[@]/$ipaddr}
+i1=${i/$ipaddr}
 cluster_join1=$(join , $i1)
 
 # Register the current IP in the discovery service
@@ -138,7 +138,7 @@ curl http://$DISCOVERY_SERVICE/v2/keys/pxc-cluster/$CLUSTER_NAME/$ipaddr -XPUT -
 #i=`curl http://$DISCOVERY_SERVICE/v2/keys/pxc-cluster/$CLUSTER_NAME/ | jq -r '.node.nodes[].value'`
 i=$(curl http://$DISCOVERY_SERVICE/v2/keys/pxc-cluster/$CLUSTER_NAME/?quorum=true | jq -r '.node.nodes[]?.key' | awk -F'/' '{print $(NF)}')
 # this remove my ip from the list
-i2=${i[@]/$ipaddr}
+i2=${i/$ipaddr}
 cluster_join2=$(join , $i1)
 cluster_join=$(join , $i1 $i2 )
 echo "Joining cluster $cluster_join"
